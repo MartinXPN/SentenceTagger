@@ -1,8 +1,8 @@
 ### set random seed + limit number of threads
 
 import os
-import time
 import random
+import time
 
 import numpy as np
 import tensorflow as tf
@@ -18,8 +18,7 @@ tf.set_random_seed(123)
 sess = tf.Session(graph=tf.get_default_graph(), config=session_conf)
 K.set_session(sess)
 
-### main
-
+# main
 from argparse import ArgumentParser
 from sklearn.externals import joblib
 from keras import backend as K
@@ -31,13 +30,6 @@ from sentence2tags.utils import (
     ConllSemanticLoader,
     ConllSemanticSaver,
     print_summary,
-    uas_score,
-    las_score,
-    lemma_score,
-    pos_score,
-    xpos_score,
-    semrel_score,
-    feat_score,
     full_score,
 )
 

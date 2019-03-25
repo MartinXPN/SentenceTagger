@@ -2,14 +2,12 @@ import gzip
 from collections import OrderedDict
 
 import numpy as np
-from scipy.sparse.csgraph import minimum_spanning_tree
 from sklearn.base import BaseEstimator, TransformerMixin
-from keras.utils.np_utils import to_categorical
 
 from sentence2tags.mst import mst
 
 
-class EmbeddingLoader():
+class EmbeddingLoader:
 
     def __init__(self, params):
         self.params = params

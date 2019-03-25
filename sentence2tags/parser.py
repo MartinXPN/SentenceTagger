@@ -1,22 +1,20 @@
-import gc
 import random
-import resource
 from copy import deepcopy
 
 import numpy as np
-from sklearn.base import BaseEstimator, TransformerMixin
-from keras.utils.np_utils import to_categorical
 from keras.preprocessing.sequence import pad_sequences
+from keras.utils.np_utils import to_categorical
+from sklearn.base import BaseEstimator, TransformerMixin
 
-from sentence2tags.utils import Tree
-from sentence2tags.models import (
-    KerasModel,
-    ParserModel,
-)
 from sentence2tags.encoders import (
     FeaturesFactory,
     TargetsFactory,
 )
+from sentence2tags.models import (
+    KerasModel,
+    ParserModel,
+)
+from sentence2tags.utils import Tree
 
 
 class Parser(BaseEstimator, TransformerMixin, KerasModel):
