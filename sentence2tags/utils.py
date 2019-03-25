@@ -134,7 +134,7 @@ class ConllSemanticLoader(TSVLoader):
     ]
 
 
-class TxtLoader():
+class TxtLoader:
     columns = [
         'id',
         'form',
