@@ -1,6 +1,7 @@
 import re
 
 import numpy as np
+from tqdm import tqdm
 from keras.utils.np_utils import to_categorical
 from keras.preprocessing.sequence import pad_sequences
 
@@ -134,7 +135,7 @@ class ConllSemanticLoader(TSVLoader):
     ]
 
 
-class TxtLoader():
+class TxtLoader:
     columns = [
         'id',
         'form',
@@ -344,3 +345,10 @@ def print_summary(pred, true):
         em_score(pred, true),
         -1,  # cycle_score(pred, true),
     ))
+
+
+class DownloadProgressBar(tqdm):
+    def update_to(self, b=1, bsize=1, tsize=None):
+        if tsize is not None:
+            self.total = tsize
+        self.update(b * bsize - self.n)
