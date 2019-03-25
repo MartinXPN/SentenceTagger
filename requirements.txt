@@ -1,5 +1,6 @@
-tqdm
-tensorflow
-scikit-learn
-keras
-numpy
+Keras==2.2.4
+numpy==1.16.2
+scikit-learn==0.20.3
+scipy==1.2.1
+tqdm==4.31.1
+tensorflow==1.13.1

@@ -5,7 +5,7 @@ from shutil import rmtree
 
 from setuptools import find_packages, setup, Command
 
-import sentence2tags
+from sentence2tags import __version__
 
 # Package meta-data.
 NAME = 'sentence2tags'
@@ -14,7 +14,7 @@ URL = 'https://github.com/MartinXPN/sentence2tags'
 EMAIL = 'mirakyanmartin@gmail.com'
 AUTHOR = 'Martin Mirakyan'
 REQUIRES_PYTHON = '>=3.6.0'
-VERSION = sentence2tags.__version__
+VERSION = __version__
 
 # What packages are required for this module to be executed?
 with open('requirements.txt') as f:
