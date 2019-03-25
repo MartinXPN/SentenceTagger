@@ -1,9 +1,13 @@
+import urllib.request
+from pathlib import Path
 from typing import List
 
 from sklearn.externals import joblib
 
 from sentence2tags.parser import Parser
-from sentence2tags.utils import Tree, TxtLoader, Token
+from sentence2tags.utils import Tree, TxtLoader, Token, DownloadProgressBar
+
+BASE_URL = 'https://github.com/MartinXPN/sentence2tags/releases/download'
 
 
 class Sentence2Tags(object):
@@ -24,7 +28,23 @@ class Sentence2Tags(object):
         joblib.dump(self.model, filename=path, compress=('lzma', 3))
 
     @staticmethod
-    def load_model(path: str) -> 'Sentence2Tags':
+    def load_model(path: str = None, url: str = None, locale: str = None, version: str = None) -> 'Sentence2Tags':
+        from sentence2tags import __version__
+
+        if locale:
+            version = version or __version__
+            url = '{BASE_URL}/v{version}/{locale}.pkl'.format(BASE_URL=BASE_URL, version=version, locale=locale)
+            path = path or 'logs/{locale}-{version}.pkl'.format(locale=locale, version=version)
+
+        if url and path:
+            if not Path(path).exists():
+                with DownloadProgressBar(unit='B', unit_scale=True, miniters=1, desc=url.split('/')[-1]) as t:
+                    urllib.request.urlretrieve(url=url, filename=path, reporthook=t.update_to)
+            else:
+                print('Model already exists. Loading an existing file...')
+        elif url:
+            raise ValueError('Both URL and save path needs to be specified!')
+
         parser: Parser = joblib.load(filename=path)
         return Sentence2Tags(parser)
 
