@@ -1,11 +1,9 @@
-import urllib.request
-from pathlib import Path
-from typing import List
+from typing import List, overload
 
 from sklearn.externals import joblib
 
 from sentence2tags.parser import Parser
-from sentence2tags.utils import Tree, TxtLoader, Token, DownloadProgressBar
+from sentence2tags.utils import Tree, TxtLoader, Token, download
 
 BASE_URL = 'https://github.com/MartinXPN/sentence2tags/releases/download'
 
@@ -27,26 +25,37 @@ class Sentence2Tags(object):
     def save(self, path):
         joblib.dump(self.model, filename=path, compress=('lzma', 3))
 
-    @staticmethod
-    def load_model(path: str = None, url: str = None, locale: str = None, version: str = None) -> 'Sentence2Tags':
+    @classmethod
+    @overload
+    def load_model(cls, path: str) -> 'Sentence2Tags':
+        ...
+
+    @classmethod
+    @overload
+    def load_model(cls, url: str, path: str) -> 'Sentence2Tags':
+        ...
+
+    @classmethod
+    @overload
+    def load_model(cls, locale: str, version: str = None) -> 'Sentence2Tags':
+        ...
+
+    @classmethod
+    def load_model(cls, path: str = None, url: str = None, locale: str = None, version: str = None) -> 'Sentence2Tags':
         from sentence2tags import __version__
 
         if locale:
             version = version or __version__
-            url = '{BASE_URL}/v{version}/{locale}.pkl'.format(BASE_URL=BASE_URL, version=version, locale=locale)
-            path = path or 'logs/{locale}-{version}.pkl'.format(locale=locale, version=version)
+            url = f'{BASE_URL}/v{version}/{locale}.pkl'
+            path = path or f'logs/{locale}-{version}.pkl'
 
         if url and path:
-            if not Path(path).exists():
-                with DownloadProgressBar(unit='B', unit_scale=True, miniters=1, desc=url.split('/')[-1]) as t:
-                    urllib.request.urlretrieve(url=url, filename=path, reporthook=t.update_to)
-            else:
-                print('Model already exists. Loading an existing file...')
+            download(url, path, exists_ok=True)
         elif url:
             raise ValueError('Both URL and save path needs to be specified!')
 
         parser: Parser = joblib.load(filename=path)
-        return Sentence2Tags(parser)
+        return cls(parser)
 
 
 def sentence_to_conll(sentence: List[str]) -> List[str]:
