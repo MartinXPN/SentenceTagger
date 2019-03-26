@@ -1,7 +1,7 @@
 # sentence2tags
 Given a sentence predict lemma, morphological tags, pos-tag for each word.
 
-This repo is a modification of [COMBO](https://github.com/360er0/COMBO) architecture.
+This repo is a modification of the [COMBO](https://github.com/360er0/COMBO) architecture.
 
 ## Instructions
 
@@ -13,10 +13,10 @@ wget https://raw.githubusercontent.com/UniversalDependencies/UD_Armenian-ArmTDP/
 
 * To train the model
 ```commandline
-python -m sentence2tags.main --mode autotrain --train datasets/hy_armtdp-ud-train.conllu --valid datasets/hy_armtdp-ud-train.conllu --embed external_embedding.txt --model model_name.pkl --force_trees
+PYTHONHASHSEED=0 python -m sentence2tags.main --mode autotrain --train datasets/hy_armtdp-ud-train.conllu --valid datasets/hy_armtdp-ud-train.conllu --embed external_embedding.txt --model model_name.pkl --force_trees
 ```
 
 * To make predictions
 ```commandline
-python -m sentence2tags.main --mode predict --test test_data.conllu --pred output_path.conllu --model model_name.pkl
+PYTHONHASHSEED=0 python -m sentence2tags.main --mode predict --test test_data.conllu --pred output_path.conllu --model model_name.pkl
 ```
