@@ -17,9 +17,13 @@ REQUIRES_PYTHON = '>=3.6.0'
 VERSION = __version__
 
 # What packages are required for this module to be executed?
-with open('requirements.txt') as f:
-    install_requires = f.readlines()
-REQUIRED = install_requires
+REQUIRED = [
+    'Keras>=2.2.4',
+    'scikit-learn>=0.20.3',
+    'tqdm>=4.31.1',
+    'tensorflow>=1.13.1',
+    'numpy>=1.16.1',
+]
 
 # What packages are optional?
 EXTRAS = {
