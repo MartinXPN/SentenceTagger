@@ -97,3 +97,17 @@ def sentence_to_tree(sentence: List[str], index: int = 0) -> Tree:
         else:
             tree.tokens.append(token)
     return tree
+
+
+def tree_to_conllu_lines(tree: Tree) -> List[str]:
+    columns = TxtLoader.columns
+    tree_output = []
+    tree_output += tree.comments
+    for token in sorted(tree.words + tree.tokens[1:], key=lambda x: float(x.fields['id'].split('-')[0])):
+        line_output = []
+        for col in columns:
+            line_output.append(token.fields.get(col, '_'))
+        tree_output.append('\t'.join(line_output))
+
+    # conllu_string = '\n'.join(tree_output) + '\n\n'
+    return tree_output
